@@ -11,7 +11,12 @@ import Foundation
 class TMDBRequests {
     //MARK: Properties
     var page: Int = 1
-    var config: TMDBRequestEnum!
+    var config: TMDBRequestEnum! {
+        didSet {
+            page = 1
+        }
+    }
+    private var request = TMDBServiceAPI()
     
     //MARK: Init
     init() {
@@ -25,7 +30,10 @@ class TMDBRequests {
     
     //MARK: Request
     
-    func run() {
-        
+    func run(_ completion: (([Movie]) -> Void)) {
+        guard let url = config.url(for: page) else { return }
+        request.request(url) { (data, error) in
+            
+        }
     }
 }

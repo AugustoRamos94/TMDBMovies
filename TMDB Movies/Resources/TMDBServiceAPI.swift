@@ -9,27 +9,35 @@
 import Foundation
 
 class TMDBServiceAPI {
-    let defaultSession = URLSession(configuration: .default)
-    var dataTask: URLSessionDataTask?
+    private let defaultSession = URLSession(configuration: .default)
+    private var dataTask: URLSessionDataTask?
     private var errorMessage = ""
     
-    typealias QueryResult = ([Movie]?, String?) -> Void
+    typealias QueryResult = (Data?, String?) -> Void
     
-    func request(_ url: URL, completion: QueryResult) {
+    func request(_ url: URL, completion: @escaping QueryResult) {
         dataTask?.cancel()
+        
+        var request = URLRequest.init(url: url,
+                                      cachePolicy: .useProtocolCachePolicy,
+                                      timeoutInterval: 10.0)
+        request.httpMethod = "GET"
+
         
         dataTask = defaultSession.dataTask(with: url) { data, response, error in
             defer { self.dataTask = nil }
-            // 5
             if let error = error {
                 self.errorMessage += "DataTask error: " + error.localizedDescription + "\n"
             } else if let data = data,
                 let response = response as? HTTPURLResponse,
                 response.statusCode == 200 {
-//                self.updateSearchResults(data)
-                // 6
-                DispatchQueue.main.async {
-                    //completion(self.tracks, self.errorMessage)
+                if let stringData = String(data: data, encoding: String.Encoding.utf8),
+                    let jsonDecoder = JSONDecoder.decode([String: [Movie]].self, from: stringData) {
+                    
+                    print(jsonDecoder["results"])
+                }
+                DispatchQueue.main.async { [weak self] in
+                    completion(data, self?.errorMessage)
                 }
             }
         }

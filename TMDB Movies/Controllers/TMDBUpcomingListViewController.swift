@@ -21,12 +21,23 @@ class TMDBUpcomingListViewController: UIViewController {
     //MARK: Properties
     
     private var datasource = TMDBDatasource()
+    private var request = TMDBRequests()
     
-    //MARK: Methods
-    
-    private func makeRequest(search: String = "") {
-        
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        makeRequest()
     }
     
+    //MARK: Request
     
+    private func makeRequest(search: String = "") {
+        if !search.isEmpty {
+            request.config = .search(search)
+        } else {
+            request.config = .upcoming
+        }
+        request.run() { _ in
+            
+        }
+    }
 }

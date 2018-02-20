@@ -11,6 +11,16 @@ import Foundation
 import CoreData
 
 
-public class Movie: NSManagedObject {
-
+public class Movie: NSManagedObject, Decodable {
+    //MARK - Decodable initilizer
+    
+    public required convenience init(from decoder: Decoder) throws {
+        let dataManager = DataManager()
+        
+        guard let description = NSEntityDescription.entity(forEntityName: "Movie", in: dataManager.context) else {
+            fatalError("Failed to decode Movie =/")
+        }
+        
+        self.init(entity: description, insertInto: nil)
+    }
 }

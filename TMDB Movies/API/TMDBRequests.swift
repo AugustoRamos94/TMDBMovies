@@ -11,6 +11,8 @@ import CoreData
 
 class TMDBRequests {
     //MARK: Properties
+    typealias QueryMovieResult = (([Movie]?, String?) -> Void)
+    typealias QueryGenreResult = (([Genre]?, String?) -> Void)
     var page: Int = 1
     var config: TMDBRequestEnum! {
         didSet {
@@ -20,6 +22,7 @@ class TMDBRequests {
     private var request = TMDBServiceAPI()
     
     //MARK: Init
+    
     init() {
         config = .upcoming
     }
@@ -31,10 +34,11 @@ class TMDBRequests {
     
     //MARK: Request
     
-    func run(_ completion: @escaping (([Movie]) -> Void)) {
+    func run(_ completion: QueryMovieResult?) {
         guard let url = config.url(for: page) else { return }
         request.request(url) {(data, error) in
             guard let data = data else {
+                completion?(nil, error)
                 return
             }
             let movies: [Movie]
@@ -44,14 +48,15 @@ class TMDBRequests {
             } else {
                 movies = []
             }
-            completion(movies)
+            completion?(movies, nil)
         }
     }
     
-    static func genres(_ completion: @escaping (([Genre]) -> Void)) {
+    static func genres(_ completion: QueryGenreResult?) {
         guard let url = TMDBRequestEnum.genre.url() else { return }
         TMDBServiceAPI().request(url) {(data, error) in
             guard let data = data else {
+                completion?(nil, error)
                 return
             }
             let genres: [Genre]
@@ -62,7 +67,8 @@ class TMDBRequests {
             } else {
                 genres = []
             }
-            completion(genres)
+            DataManager().save(genres: genres)
+            completion?(genres, nil)
         }
     }
 }

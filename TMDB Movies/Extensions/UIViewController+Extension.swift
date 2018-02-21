@@ -25,4 +25,34 @@ extension UIViewController {
         removeFromParentViewController()
         view.removeFromSuperview()
     }
+    
+    func showAlert(title: String, message: String, actions: [UIAlertAction] = []) {
+        let alertController = UIAlertController(title: title,
+                                                message: message,
+                                                preferredStyle: .alert)
+        if actions.isEmpty {
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        } else {
+            actions.forEach({ alertController.addAction($0) })
+        }
+        
+        present(alertController,
+                animated: true,
+                completion: nil)
+    }
+    
+    func showAlertError(tryAgainCompletion: (() -> Void)? = nil) {
+        var actions:[UIAlertAction] = [UIAlertAction(title: "OK", style: .default, handler: nil)]
+        if tryAgainCompletion != nil {
+            actions.append(UIAlertAction(title: "Try again",
+                                         style: .default,
+                                         handler: { (_) in
+                                            tryAgainCompletion?()
+            }))
+        }
+        
+        showAlert(title: "Ops",
+                  message: "There was a problem",
+                  actions: actions)
+    }
 }

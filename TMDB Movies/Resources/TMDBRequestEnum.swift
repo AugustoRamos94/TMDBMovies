@@ -11,8 +11,9 @@ enum TMDBRequestEnum {
     case upcoming
     case search(String)
     case detail(Int)
+    case genre
     
-    func url(for page: Int) -> URL? {
+    func url(for page: Int = 1) -> URL? {
         let urlComponents: URLComponents!
         switch self {
         case .upcoming:
@@ -22,7 +23,10 @@ enum TMDBRequestEnum {
             urlComponents = URLComponents(string: TMDBRequestEnum.baseURL + "/search/movie")
             urlComponents.query = "api_key=\(TMDBRequestEnum.apiKey)&query=\(search)&page=\(page)"
         case .detail(let id):
-            urlComponents = URLComponents(string: TMDBRequestEnum.baseURL + "movie/\(id)")
+            urlComponents = URLComponents(string: TMDBRequestEnum.baseURL + "/movie/\(id)")
+            urlComponents.query = "api_key=\(TMDBRequestEnum.apiKey)"
+        case .genre:
+            urlComponents = URLComponents(string: TMDBRequestEnum.baseURL + "/genre/movie/list")
             urlComponents.query = "api_key=\(TMDBRequestEnum.apiKey)"
         }
         return urlComponents.url

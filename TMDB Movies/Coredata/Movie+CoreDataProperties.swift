@@ -18,10 +18,10 @@ extension Movie {
     }
 
     @NSManaged public var backdropImage: String?
-    @NSManaged public var id: Int16
+    @NSManaged public var id: Int64
     @NSManaged public var overview: String?
     @NSManaged public var releaseDate: NSDate?
     @NSManaged public var title: String?
-    @NSManaged public var genre: Int16
+    @NSManaged public var genres_ids: [Int16]
 
 }

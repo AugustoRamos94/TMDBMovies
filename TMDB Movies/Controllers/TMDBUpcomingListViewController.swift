@@ -15,6 +15,11 @@ class TMDBUpcomingListViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
             collectionView?.dataSource = datasource
+            collectionView.register(TMDBMovieCollectionViewCell.nib(),
+                                    forCellWithReuseIdentifier: TMDBMovieCollectionViewCell.identifier)
+            let refreshControl = UIRefreshControl()
+            refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+            collectionView.refreshControl = refreshControl
         }
     }
     
@@ -28,6 +33,13 @@ class TMDBUpcomingListViewController: UIViewController {
         makeRequest()
     }
     
+    //MARK: Setup
+    
+    @objc private func refresh(_ refresh: UIRefreshControl) {
+        
+        refresh.endRefreshing()
+    }
+    
     //MARK: Request
     
     private func makeRequest(search: String = "") {
@@ -36,8 +48,15 @@ class TMDBUpcomingListViewController: UIViewController {
         } else {
             request.config = .upcoming
         }
-        request.run() { _ in
+        
+        let loadingViewController = LoadingViewController()
+        add(loadingViewController)
+        
+        request.run() {[weak self] (movies) in
+            self?.datasource.items = movies
+            self?.collectionView.reloadData()
             
+            loadingViewController.remove()
         }
     }
 }

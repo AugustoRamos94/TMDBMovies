@@ -50,7 +50,7 @@ extension DataManager {
     
     //MARK: Find
     
-    func findGenre(by id: Int64) -> Genre? {
+    func findGenre(by id: Int16) -> Genre? {
         let fetchRequest = Genre.fetchRequest() as NSFetchRequest<Genre>
         fetchRequest.predicate = NSPredicate(format: "id = %ld", id)
         do {
@@ -59,6 +59,14 @@ extension DataManager {
             print("Faild fetch request genre: \(error)")
             return nil
         }
+    }
+    
+    func getGenres(ids: [Int16], joinedBy conc: String) -> String {
+        let genres = ids
+            .map({ findGenre(by: $0) })
+            .flatMap({ $0?.name  })
+        
+        return genres.joined(separator: conc)
     }
     
     //MARK: Load

@@ -29,16 +29,16 @@ public class Movie: NSManagedObject, Decodable {
             case title = "title"
             case genres = "genre_ids"
             case backdropImage = "backdrop_path"
+            case posterImage = "poster_path"
         }
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(Int64.self, forKey: .id)
         backdropImage = try container.decode(String?.self, forKey: .backdropImage)
+        posterImage = try container.decode(String?.self, forKey: .posterImage)
         overview = try container.decode(String?.self, forKey: .overview)
         let strDate = try container.decode(String?.self, forKey: .releaseDate) ?? ""
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-mm-dd"
-        releaseDate = (dateFormatter.date(from: strDate) as! NSDate)
+        releaseDate = strDate.dateFromFormat("yyyy-mm-dd") as NSDate?
         title = try container.decode(String?.self, forKey: .title)
         genres_ids = try container.decode([Int16].self, forKey: .genres)
     }

@@ -9,21 +9,29 @@
 import UIKit
 
 class TMDBMovieCollectionViewCell: UICollectionViewCell, IdentifierClassProtocol {
+    
     //MARK: IBOutlets
     
+    @IBOutlet weak var imageBackdrop: UIImageView!
     @IBOutlet weak var labelTitle: UILabel!
+    @IBOutlet weak var labelGenres: UILabel!
+    @IBOutlet weak var labelReleaseDate: UILabel!
     
     //MARK: Model
     
     var model: Movie! {
-        didSet {
-            populate()
-        }
+        didSet { populate() }
     }
     
     //MARK: Populate
     
     private func populate() {
         labelTitle?.text = model.title
+        imageBackdrop.image = UIImage(named: "placeholder")
+        labelGenres.text = DataManager().getGenres(ids: model.genres_ids, joinedBy: ", ")
+        
+        if let date = model.releaseDate as Date? {
+            labelReleaseDate?.text = date.stringFromFormat("EEE, MM-dd-yyyy")
+        }
     }
 }

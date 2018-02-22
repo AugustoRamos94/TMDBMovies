@@ -40,6 +40,7 @@ class TMDBUpcomingListViewController: UIViewController, TMDBRequestsProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Upcoming"
         let movies = DataManager().loadMovies()
         guard movies.isEmpty else {
             staticMovies = movies
@@ -63,19 +64,30 @@ class TMDBUpcomingListViewController: UIViewController, TMDBRequestsProtocol {
     }
 }
 
-extension TMDBUpcomingListViewController: UICollectionViewDelegate {
+extension TMDBUpcomingListViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
         defer { collectionView.deselectItem(at: indexPath, animated: false) }
         delegate?.upcomingList(self, didSelect: datasource.items[indexPath.item])
     }
     
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView,
+                                  willDecelerate decelerate: Bool) {
         if scrollView.contentOffset.y < 0 { return }
         if scrollView.contentOffset.y + scrollView.frame.height > scrollView.contentSize.height {
             request.page += 1
             makeRequest()
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let padding: CGFloat =  30
+        let collectionViewSize = collectionView.frame.size.width - padding
+        let columns: CGFloat = UIDevice.current.orientation == .portrait ? 2.0 : 4.0
+        return CGSize(width: collectionViewSize/columns,
+                      height: collectionViewSize/columns)
     }
 }
 

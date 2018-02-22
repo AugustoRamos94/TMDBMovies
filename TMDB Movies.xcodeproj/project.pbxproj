@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C255697203E367E002983E1 /* TMDBRequestsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C255696203E367E002983E1 /* TMDBRequestsProtocol.swift */; };
+		2C255699203E3FDF002983E1 /* JSONDecoder+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C255698203E3FDF002983E1 /* JSONDecoder+Extension.swift */; };
 		2C829866203CF01500203775 /* TMDBAPIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C829865203CF01500203775 /* TMDBAPIResponse.swift */; };
 		352761B0203CCFEA0081E46C /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352761AF203CCFEA0081E46C /* DataManager.swift */; };
-		352761B2203CD0C40081E46C /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352761B1203CD0C40081E46C /* JSONDecoder.swift */; };
 		3533228A203C632600A10968 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35332289203C632600A10968 /* AppDelegate.swift */; };
 		35332292203C632600A10968 /* TMDB_Movies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 35332290203C632600A10968 /* TMDB_Movies.xcdatamodeld */; };
 		35332294203C632600A10968 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35332293203C632600A10968 /* Assets.xcassets */; };
@@ -57,9 +58,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2C255696203E367E002983E1 /* TMDBRequestsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBRequestsProtocol.swift; sourceTree = "<group>"; };
+		2C255698203E3FDF002983E1 /* JSONDecoder+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+Extension.swift"; sourceTree = "<group>"; };
 		2C829865203CF01500203775 /* TMDBAPIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBAPIResponse.swift; sourceTree = "<group>"; };
 		352761AF203CCFEA0081E46C /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
-		352761B1203CD0C40081E46C /* JSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoder.swift; sourceTree = "<group>"; };
 		35332286203C632600A10968 /* TMDB Movies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TMDB Movies.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		35332289203C632600A10968 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		35332291203C632600A10968 /* TMDB_Movies.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TMDB_Movies.xcdatamodel; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 			children = (
 				353322DB203C699500A10968 /* IdentifierClassProtocol.swift */,
 				2C829865203CF01500203775 /* TMDBAPIResponse.swift */,
+				2C255696203E367E002983E1 /* TMDBRequestsProtocol.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -225,8 +228,8 @@
 			isa = PBXGroup;
 			children = (
 				35332301203CC20800A10968 /* UIViewController+Extension.swift */,
-				352761B1203CD0C40081E46C /* JSONDecoder.swift */,
 				35FBBBFA203DF2EC00E7DD74 /* DataManager+Extension.swift */,
+				2C255698203E3FDF002983E1 /* JSONDecoder+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -415,7 +418,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				353322E4203C710800A10968 /* TMDBServiceAPI.swift in Sources */,
-				352761B2203CD0C40081E46C /* JSONDecoder.swift in Sources */,
 				35FBBBF8203DDD7100E7DD74 /* TMDBDetailViewController.swift in Sources */,
 				352761B0203CCFEA0081E46C /* DataManager.swift in Sources */,
 				355120AE203DAD6F00B84E20 /* LoadingViewController.swift in Sources */,
@@ -423,11 +425,13 @@
 				353322DC203C699500A10968 /* IdentifierClassProtocol.swift in Sources */,
 				35332302203CC20800A10968 /* UIViewController+Extension.swift in Sources */,
 				353322D4203C692D00A10968 /* TMDBMovieCollectionViewCell.swift in Sources */,
+				2C255699203E3FDF002983E1 /* JSONDecoder+Extension.swift in Sources */,
 				35FBBBFB203DF2EC00E7DD74 /* DataManager+Extension.swift in Sources */,
 				353322FE203C912C00A10968 /* Genre+CoreDataClass.swift in Sources */,
 				355120B5203DB47600B84E20 /* TMDBUpcomingListViewController.swift in Sources */,
 				353322FD203C912C00A10968 /* Movie+CoreDataProperties.swift in Sources */,
 				3533228A203C632600A10968 /* AppDelegate.swift in Sources */,
+				2C255697203E367E002983E1 /* TMDBRequestsProtocol.swift in Sources */,
 				353322FF203C912C00A10968 /* Genre+CoreDataProperties.swift in Sources */,
 				353322E0203C6A5C00A10968 /* TMDBRequestEnum.swift in Sources */,
 				2C829866203CF01500203775 /* TMDBAPIResponse.swift in Sources */,

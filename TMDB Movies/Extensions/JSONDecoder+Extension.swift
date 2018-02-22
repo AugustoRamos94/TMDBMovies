@@ -1,13 +1,12 @@
 //
-//  JSONDecoder.swift
+//  JSONDecoder+Extension.swift
 //  TMDB Movies
 //
-//  Created by Augusto Ramalho Ramos on 20/02/18.
+//  Created by Augusto Ramos on 21/02/18.
 //  Copyright © 2018 AugustoRamalhoRamos. All rights reserved.
 //
 
 import Foundation
-
 extension JSONDecoder {
     
     static func decode<T>(_ type: T.Type, from jsonString: String) -> T? where T : Decodable {

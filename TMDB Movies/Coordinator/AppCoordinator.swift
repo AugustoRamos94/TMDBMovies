@@ -31,12 +31,16 @@ class AppCoordinator: Coordinator {
         window.rootViewController = rootViewController
         showList()
         window.makeKeyAndVisible()
+        let genres = DataManager().loadGenres()
+        guard genres.isEmpty else { return }
+        TMDBRequests.genres(nil)
     }
     
     //MARK: Actions
     
     private func showList() {
         let instance = TMDBUpcomingListViewController()
+        instance.delegate = self
         rootViewController.pushViewController(instance, animated: true)
     }
     

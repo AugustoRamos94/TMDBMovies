@@ -9,13 +9,21 @@
 import UIKit
 
 class TMDBMovieCollectionViewCell: UICollectionViewCell, IdentifierClassProtocol {
+    //MARK: IBOutlets
+    
+    @IBOutlet weak var labelTitle: UILabel!
+    
+    //MARK: Model
+    
     var model: Movie! {
         didSet {
             populate()
         }
     }
     
+    //MARK: Populate
+    
     private func populate() {
-        
+        labelTitle?.text = model.title
     }
 }

@@ -26,12 +26,17 @@ extension UIViewController {
         view.removeFromSuperview()
     }
     
-    func showAlert(title: String, message: String, actions: [UIAlertAction] = []) {
+    func showAlert(title: String,
+                   message: String,
+                   actions: [UIAlertAction] = [],
+                   defaultCompletion: (() -> Void)? = nil) {
         let alertController = UIAlertController(title: title,
                                                 message: message,
                                                 preferredStyle: .alert)
         if actions.isEmpty {
-            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+                defaultCompletion?()
+            }))
         } else {
             actions.forEach({ alertController.addAction($0) })
         }
@@ -41,12 +46,18 @@ extension UIViewController {
                 completion: nil)
     }
     
-    func showAlertError(tryAgainCompletion: (() -> Void)? = nil) {
-        var actions:[UIAlertAction] = [UIAlertAction(title: "OK", style: .default, handler: nil)]
+    func showAlertError(completion: (() -> Void)? = nil,
+                        tryAgainCompletion: (() -> Void)? = nil) {
+        var actions:[UIAlertAction] = [UIAlertAction(title: "OK",
+                                                     style: .default,
+                                                     handler: { _ in
+                                                        completion?()
+        })]
+        
         if tryAgainCompletion != nil {
             actions.append(UIAlertAction(title: "Try again",
                                          style: .default,
-                                         handler: { (_) in
+                                         handler: { _ in
                                             tryAgainCompletion?()
             }))
         }
@@ -56,3 +67,4 @@ extension UIViewController {
                   actions: actions)
     }
 }
+

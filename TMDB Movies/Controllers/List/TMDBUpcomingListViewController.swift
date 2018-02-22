@@ -12,8 +12,7 @@ protocol TMDBUpcomingListDelegate: class {
     func upcomingList(_ upcoming: TMDBUpcomingListViewController, didSelect movie: Movie)
 }
 
-class TMDBUpcomingListViewController: UIViewController {
-
+class TMDBUpcomingListViewController: UIViewController, TMDBRequestsProtocol {
     //MARK: IBOutlets
     
     @IBOutlet weak var searchBar: UISearchBar!
@@ -32,59 +31,35 @@ class TMDBUpcomingListViewController: UIViewController {
     
     //MARK: Properties
     
-    private var datasource = TMDBDatasource()
-    private var request = TMDBRequests()
+    var datasource = TMDBDatasource()
+    var request = TMDBRequests(with: .upcoming)
     weak var delegate: TMDBUpcomingListDelegate?
+    var staticMovies: [Movie] = []
+    
+    //MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let movies = DataManager().loadMovies()
+        guard movies.isEmpty else {
+            staticMovies = movies
+            datasource.items = movies
+            reloadData()
+            return
+        }
         makeRequest()
     }
     
     //MARK: Setup
     
     @objc private func refresh(_ refresh: UIRefreshControl) {
-        
-        refresh.endRefreshing()
+        requestRefresh(.upcoming) {
+            refresh.endRefreshing()
+        }
     }
     
-    //MARK: Request
-    
-    private func makeRequest(search: String? = "",
-                             completion: (() -> Void)? = nil) {
-        func sucessRequest(_ movies:[Movie]) {
-            if request.page == 1 {
-                datasource.items = movies
-            } else {
-                datasource.items.append(contentsOf: movies)
-            }
-            collectionView?.reloadData()
-            completion?()
-        }
-        
-        func failRequest() {
-            showAlertError(tryAgainCompletion: { [weak self] in
-                self?.makeRequest(search: search, completion: completion)
-            })
-        }
-        
-        if let search = search, !search.isEmpty {
-            request.config = .search(search)
-        } else {
-            request.config = .upcoming
-        }
-        
-        let loadingViewController = LoadingViewController()
-        add(loadingViewController)
-        
-        request.run() {(movies, error) in
-            loadingViewController.remove()
-            guard let movies = movies else {
-                failRequest()
-                return
-            }
-            sucessRequest(movies)
-        }
+    func reloadData() {
+        collectionView?.reloadData()
     }
 }
 
@@ -95,12 +70,11 @@ extension TMDBUpcomingListViewController: UICollectionViewDelegate {
         delegate?.upcomingList(self, didSelect: datasource.items[indexPath.item])
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        willDisplay cell: UICollectionViewCell,
-                        forItemAt indexPath: IndexPath) {
-        if indexPath.item == datasource.items.count {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if scrollView.contentOffset.y < 0 { return }
+        if scrollView.contentOffset.y + scrollView.frame.height > scrollView.contentSize.height {
             request.page += 1
-            makeRequest(search: searchBar.text)
+            makeRequest()
         }
     }
 }
@@ -108,10 +82,17 @@ extension TMDBUpcomingListViewController: UICollectionViewDelegate {
 extension TMDBUpcomingListViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar,
                    textDidChange searchText: String) {
-        
+        let filteredItems = staticMovies.filter({ $0.title?.contains(searchText) ?? false })
+        if filteredItems.isEmpty {
+            datasource.items = staticMovies
+        } else {
+            datasource.items = filteredItems
+        }
+        reloadData()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        makeRequest(search: searchBar.text)
+        request = TMDBRequests(with: searchBar.text!.isEmpty ? .upcoming : .search(searchBar.text!))
+        makeRequest()
     }
 }

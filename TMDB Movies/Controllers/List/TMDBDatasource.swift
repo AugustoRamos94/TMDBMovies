@@ -23,7 +23,8 @@ extension TMDBDatasource: UICollectionViewDataSource {
             fatalError()
         }
         
-        cell.model = items[indexPath.item]
+        let movie = items[indexPath.item]
+        cell.model = movie
         return cell
     }
 }

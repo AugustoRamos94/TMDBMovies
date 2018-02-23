@@ -26,12 +26,14 @@ class TMDBMovieCollectionViewCell: UICollectionViewCell, IdentifierClassProtocol
     //MARK: Populate
     
     private func populate() {
-        labelTitle?.text = model.title
-        imageBackdrop.image = UIImage(named: "placeholder")
-        labelGenres.text = DataManager().getGenres(ids: model.genres_ids, joinedBy: ", ")
-        
-        if let date = model.releaseDate as Date? {
-            labelReleaseDate?.text = date.stringFromFormat("EEE, MM-dd-yyyy")
+        labelTitle?.text = model.customTitle
+        if let url = TMDBImageRequestEnum.Backdrop.w300.url(for: model.backdropImage) {
+            imageBackdrop.setImage(url: url,
+                placeholder: UIImageView.placeholderImage)
+        } else {
+            imageBackdrop.image = UIImageView.placeholderImage
         }
+        labelGenres.text = DataManager.shared.getGenres(ids: model.genres_ids, joinedBy: ", ")
+        labelReleaseDate?.text = model.customReleaseDate
     }
 }

@@ -10,12 +10,19 @@
 import Foundation
 import CoreData
 
-
 public class Movie: NSManagedObject, Decodable {
+    var customTitle: String {
+        return title.isEmpty ? "No title" : title
+    }
+    
+    var customReleaseDate: String {
+        return (releaseDate as Date).stringFromFormat("EEE, MM-dd-yyyy")
+    }
+    
     //MARK - Decodable initilizer
     
     public required convenience init(from decoder: Decoder) throws {
-        let dataManager = DataManager()
+        let dataManager = DataManager.shared
         
         guard let description = NSEntityDescription.entity(forEntityName: "Movie", in: dataManager.context) else {
             fatalError("Failed to decode Movie =/")
@@ -34,12 +41,12 @@ public class Movie: NSManagedObject, Decodable {
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(Int64.self, forKey: .id)
-        backdropImage = try container.decode(String?.self, forKey: .backdropImage)
-        posterImage = try container.decode(String?.self, forKey: .posterImage)
-        overview = try container.decode(String?.self, forKey: .overview)
+        backdropImage = try container.decode(String?.self, forKey: .backdropImage) ?? ""
+        posterImage = try container.decode(String?.self, forKey: .posterImage) ?? ""
+        overview = try container.decode(String?.self, forKey: .overview) ?? ""
         let strDate = try container.decode(String?.self, forKey: .releaseDate) ?? ""
-        releaseDate = strDate.dateFromFormat("yyyy-mm-dd") as NSDate?
-        title = try container.decode(String?.self, forKey: .title)
-        genres_ids = try container.decode([Int16].self, forKey: .genres)
+        releaseDate = (strDate.dateFromFormat("yyyy-mm-dd") as NSDate?) ?? NSDate()
+        title = try container.decode(String?.self, forKey: .title) ?? ""
+        genres_ids = try container.decode([Int16]?.self, forKey: .genres) ?? []
     }
 }

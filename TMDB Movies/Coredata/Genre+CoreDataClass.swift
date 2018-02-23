@@ -15,7 +15,7 @@ public class Genre: NSManagedObject, Decodable {
     //MARK - Decodable initilizer
     
     public required convenience init(from decoder: Decoder) throws {
-        let dataManager = DataManager()
+        let dataManager = DataManager.shared
         
         guard let description = NSEntityDescription.entity(forEntityName: "Genre", in: dataManager.context) else {
             fatalError("Failed to decode Genre =/")

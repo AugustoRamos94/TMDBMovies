@@ -14,8 +14,8 @@ enum TMDBImageRequestEnum {
         case w1280 = "w1280"
         case original = "original"
         
-        func url(for path: String) -> URL {
-            return URL(string: TMDBImageRequestEnum.apiKey + self.rawValue + "\\" + path)!
+        func url(for path: String) -> URL? {
+            return URL(string: TMDBImageRequestEnum.apiKey + self.rawValue + "/" + path)
         }
     }
     
@@ -28,8 +28,8 @@ enum TMDBImageRequestEnum {
         case w780 = "w780"
         case original = "original"
         
-        func url(for path: String) -> URL {
-            return URL(string: TMDBImageRequestEnum.apiKey + self.rawValue + "\\" + path)!
+        func url(for path: String) -> URL? {
+            return URL(string: TMDBImageRequestEnum.apiKey + self.rawValue + "/" + path)
         }
     }
     

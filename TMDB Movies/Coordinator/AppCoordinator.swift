@@ -23,6 +23,8 @@ class AppCoordinator: Coordinator {
     init(window: UIWindow) {
         self.window = window
         rootViewController = UINavigationController()
+        rootViewController.navigationBar.barTintColor = .appColor
+        rootViewController.navigationBar.tintColor = .white
     }
     
     //MARK: Start
@@ -31,7 +33,7 @@ class AppCoordinator: Coordinator {
         window.rootViewController = rootViewController
         showList()
         window.makeKeyAndVisible()
-        let genres = DataManager().loadGenres()
+        let genres = DataManager.shared.loadGenres()
         guard genres.isEmpty else { return }
         TMDBRequests.genres(nil)
     }

@@ -12,7 +12,7 @@ protocol TMDBUpcomingListDelegate: class {
     func upcomingList(_ upcoming: TMDBUpcomingListViewController, didSelect movie: Movie)
 }
 
-class TMDBUpcomingListViewController: UIViewController, TMDBRequestsProtocol {
+class TMDBUpcomingListViewController: UIViewController, TMDBControllerRequestsHandlerProtocol {
     //MARK: IBOutlets
     
     @IBOutlet weak var searchBar: UISearchBar!
@@ -34,16 +34,17 @@ class TMDBUpcomingListViewController: UIViewController, TMDBRequestsProtocol {
     var datasource = TMDBDatasource()
     var request = TMDBRequests(with: .upcoming)
     weak var delegate: TMDBUpcomingListDelegate?
-    var staticMovies: [Movie] = []
+    var staticMovies: [Movie] {
+        return DataManager.shared.loadMovies()
+    }
     
     //MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Upcoming"
-        let movies = DataManager().loadMovies()
+        let movies = staticMovies
         guard movies.isEmpty else {
-            staticMovies = movies
             datasource.items = movies
             reloadData()
             return
@@ -94,7 +95,7 @@ extension TMDBUpcomingListViewController: UICollectionViewDelegate, UICollection
 extension TMDBUpcomingListViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar,
                    textDidChange searchText: String) {
-        let filteredItems = staticMovies.filter({ $0.title?.contains(searchText) ?? false })
+        let filteredItems = staticMovies.filter({ $0.title.contains(searchText) })
         if filteredItems.isEmpty {
             datasource.items = staticMovies
         } else {
@@ -106,5 +107,6 @@ extension TMDBUpcomingListViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         request = TMDBRequests(with: searchBar.text!.isEmpty ? .upcoming : .search(searchBar.text!))
         makeRequest()
+        searchBar.resignFirstResponder()
     }
 }

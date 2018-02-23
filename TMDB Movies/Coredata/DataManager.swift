@@ -9,7 +9,12 @@
 import UIKit
 import CoreData
 
-class DataManager: NSObject {
+class DataManager {
+    private init() { }
+    
+    // MARK: Shared Instance
+    
+    static let shared = DataManager()
     
     var context : NSManagedObjectContext {
         get {

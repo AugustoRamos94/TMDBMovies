@@ -9,15 +9,15 @@
 import Foundation
 import UIKit
 
-protocol TMDBRequestsProtocol: class {
+protocol TMDBControllerRequestsHandlerProtocol: class {
     var request: TMDBRequests { get }
     var datasource: TMDBDatasource { get }
-    var staticMovies: [Movie] { get set }
+    var staticMovies: [Movie] { get }
     
     func reloadData()
 }
 
-extension TMDBRequestsProtocol where Self: UIViewController {
+extension TMDBControllerRequestsHandlerProtocol where Self: UIViewController {
     //MARK: Request
     
     func makeRequest(_ completion: (() -> Void)? = nil) {
@@ -55,16 +55,13 @@ extension TMDBRequestsProtocol where Self: UIViewController {
         request.config = config
         request.run {[weak self] (movies, error) in
             guard let strongSelf = self else { return }
-            guard let movies = movies else {
+            guard error == nil else {
                 strongSelf.showAlertError(completion: completion) {
                     strongSelf.requestRefresh(config, completion: completion)
                 }
                 return
             }
-            let existingIds = strongSelf.staticMovies.map({$0.id})
-            let newItems = movies.filter({ !existingIds.contains($0.id) })
-            DataManager().save(movies: newItems)
-            strongSelf.staticMovies = newItems + strongSelf.staticMovies
+            strongSelf.datasource.items = strongSelf.staticMovies
             strongSelf.reloadData()
             completion?()
         }

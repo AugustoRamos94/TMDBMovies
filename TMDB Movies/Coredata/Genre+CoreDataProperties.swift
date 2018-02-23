@@ -2,7 +2,7 @@
 //  Genre+CoreDataProperties.swift
 //  TMDB Movies
 //
-//  Created by Augusto Ramalho Ramos on 20/02/18.
+//  Created by Augusto Ramos on 22/02/18.
 //  Copyright © 2018 AugustoRamalhoRamos. All rights reserved.
 //
 //
@@ -18,6 +18,6 @@ extension Genre {
     }
 
     @NSManaged public var id: Int64
-    @NSManaged public var name: String?
+    @NSManaged public var name: String
 
 }

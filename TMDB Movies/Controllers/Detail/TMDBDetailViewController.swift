@@ -20,7 +20,6 @@ class TMDBDetailViewController: UIViewController {
     @IBOutlet weak var scrollContent: UIScrollView!
     @IBOutlet weak var stackContent: UIStackView!
     
-    
     //MARK: Properties
     
     private var movie: Movie!
@@ -41,14 +40,15 @@ class TMDBDetailViewController: UIViewController {
     }
     
     private func updateUI() {
-        labelTitle.text = movie.title
-        labelGenre.text = DataManager().getGenres(ids: movie.genres_ids, joinedBy: ", ")
+        labelTitle.text = movie.customTitle
+        labelGenre.text = DataManager.shared.getGenres(ids: movie.genres_ids, joinedBy: ", ")
         labelOverview.text = movie.overview
-        
-        if let date = movie.releaseDate as Date? {
-            labelReleaseDate?.text = date.stringFromFormat("EEE, MM-dd-yyyy")
+        labelReleaseDate?.text = movie.customReleaseDate
+        if let url = TMDBImageRequestEnum.PosterSizes.w342.url(for: movie.posterImage){
+            imageView.setImage(url: url,
+                placeholder: UIImageView.placeholderImage)
+        } else {
+            imageView.image = UIImageView.placeholderImage
         }
-        
-        imageView.image = UIImage(named: "placeholder")
     }
 }

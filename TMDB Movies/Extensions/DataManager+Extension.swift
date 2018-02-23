@@ -41,11 +41,11 @@ extension DataManager {
                 movieToBeSaved.title = movie.title
                 movieToBeSaved.genres_ids = movie.genres_ids
                 movieToBeSaved.backdropImage = movie.backdropImage
+                movieToBeSaved.posterImage = movie.posterImage
+                context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+                saveContext()
             }
         }
-        
-        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-        saveContext()
     }
     
     //MARK: Find
@@ -66,13 +66,14 @@ extension DataManager {
             .map({ findGenre(by: $0) })
             .flatMap({ $0?.name  })
         
-        return genres.joined(separator: conc)
+        return genres.isEmpty ? "No genres" : genres.joined(separator: conc)
     }
     
     //MARK: Load
     
     func loadMovies() -> [Movie] {
         let fetchRequest = Movie.fetchRequest() as NSFetchRequest<Movie>
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "releaseDate", ascending: false)]
         do {
             return try context.fetch(fetchRequest)
         } catch {

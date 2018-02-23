@@ -7,29 +7,54 @@
 //
 
 import Foundation
+
+enum HTTPMethod: String {
+    case GET
+    case POST
+    case DELETE
+    case PUT
+}
+
 enum TMDBRequestEnum {
-    case upcoming
-    case search(String)
-    case detail(Int)
-    case genre
-    
-    func url(for page: Int = 1) -> URL? {
-        let urlComponents: URLComponents!
-        switch self {
-        case .upcoming:
-            urlComponents = URLComponents(string: TMDBRequestEnum.baseURL + "/movie/upcoming")
-            urlComponents.query = "api_key=\(TMDBRequestEnum.apiKey)&page=\(page)"
-        case .search(let search):
-            urlComponents = URLComponents(string: TMDBRequestEnum.baseURL + "/search/movie")
-            urlComponents.query = "api_key=\(TMDBRequestEnum.apiKey)&query=\(search)&page=\(page)"
-        case .detail(let id):
-            urlComponents = URLComponents(string: TMDBRequestEnum.baseURL + "/movie/\(id)")
-            urlComponents.query = "api_key=\(TMDBRequestEnum.apiKey)"
-        case .genre:
-            urlComponents = URLComponents(string: TMDBRequestEnum.baseURL + "/genre/movie/list")
-            urlComponents.query = "api_key=\(TMDBRequestEnum.apiKey)"
+    typealias RequestInfo = (url: URL?, method: HTTPMethod)
+    enum Movie {
+        case upcoming
+        case search(String)
+        case detail(Int)
+        
+        func requestInfo(for page: Int = 1) -> RequestInfo {
+            let tuple: RequestInfo!
+            switch self {
+            case .upcoming:
+                var urlComponents = URLComponents(string: TMDBRequestEnum.baseURL + "/movie/upcoming")
+                urlComponents?.query = "api_key=\(TMDBRequestEnum.apiKey)&page=\(page)"
+                tuple = (urlComponents?.url, .GET)
+            case .search(let search):
+                var urlComponents = URLComponents(string: TMDBRequestEnum.baseURL + "/search/movie")
+                urlComponents?.query = "api_key=\(TMDBRequestEnum.apiKey)&query=\(search)&page=\(page)"
+                tuple = (urlComponents?.url, .GET)
+            case .detail(let id):
+                var urlComponents = URLComponents(string: TMDBRequestEnum.baseURL + "/movie/\(id)")
+                urlComponents?.query = "api_key=\(TMDBRequestEnum.apiKey)"
+                tuple = (urlComponents?.url, .GET)
+            }
+            return tuple
         }
-        return urlComponents.url
+    }
+    
+    enum Genre {
+        case movie
+        
+        func requestInfo() -> RequestInfo {
+            let tuple: RequestInfo!
+            switch self {
+            case .movie:
+                var urlComponents = URLComponents(string: TMDBRequestEnum.baseURL + "/genre/movie/list")
+                urlComponents?.query = "api_key=\(TMDBRequestEnum.apiKey)"
+                tuple = (urlComponents?.url, .GET)
+            }
+            return tuple
+        }
     }
     
     //MARK: Private

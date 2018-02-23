@@ -16,7 +16,7 @@ class TMDBRequests {
     typealias QueryMovieResult = (([Movie]?, String?) -> Void)
     typealias QueryGenreResult = (([Genre]?, String?) -> Void)
     var page: Int = 1
-    var config: TMDBRequestEnum! {
+    var config: TMDBRequestEnum.Movie! {
         didSet { page = 1 }
     }
     private var request = TMDBServiceAPI()
@@ -25,7 +25,7 @@ class TMDBRequests {
     
     init() { config = .upcoming }
     
-    convenience init(with config: TMDBRequestEnum) {
+    convenience init(with config: TMDBRequestEnum.Movie) {
         self.init()
         self.config = config
     }
@@ -33,8 +33,10 @@ class TMDBRequests {
     //MARK: Request
     
     func run(_ completion: QueryMovieResult?) {
-        guard let url = config.url(for: page) else { return }
-        request.request(url) {(data, error) in
+        let info = config.requestInfo(for: page)
+        guard let url = info.url else { return }
+        
+        request.request(url, method: info.method) {(data, error) in
             guard let data = data else {
                 completion?(nil, error)
                 return
@@ -63,8 +65,10 @@ class TMDBRequests {
     }
     
     static func genres(_ completion: QueryGenreResult?) {
-        guard let url = TMDBRequestEnum.genre.url() else { return }
-        TMDBServiceAPI().request(url) {(data, error) in
+        let info = TMDBRequestEnum.Genre.movie.requestInfo()
+        guard let url = info.url else { return }
+        
+        TMDBServiceAPI().request(url, method: info.method) {(data, error) in
             guard let data = data else {
                 completion?(nil, error)
                 return

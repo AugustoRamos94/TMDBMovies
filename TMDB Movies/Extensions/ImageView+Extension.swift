@@ -21,6 +21,7 @@ extension UIImageView {
         } else {
             image = placeholder
             TMDBServiceAPI().request(url,
+                                     method: .GET,
                                      completion: {[weak self] (data, error) in
                                         if let data = data {
                                             DispatchQueue.main.async {

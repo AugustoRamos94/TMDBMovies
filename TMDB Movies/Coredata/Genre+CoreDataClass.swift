@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 
-
 public class Genre: NSManagedObject, Decodable {
     //MARK - Decodable initilizer
     
@@ -30,5 +29,15 @@ public class Genre: NSManagedObject, Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(Int64.self, forKey: .id)
         name = try container.decode(String.self, forKey: .name)
+    }
+    
+    //MARK - internal
+    
+    internal class func mock() -> Genre {
+        let dataManager = DataManager.shared
+        guard let description = NSEntityDescription.entity(forEntityName: "Genre", in: dataManager.context) else {
+            fatalError("Failed to generate Genre mock =/")
+        }
+        return Genre(entity: description, insertInto: nil)
     }
 }

@@ -14,10 +14,13 @@ class TMDBServiceAPI {
     
     typealias QueryResult = (Data?, String?) -> Void
     
-    func request(_ url: URL, completion: @escaping QueryResult) {
+    func request(_ url: URL, method: HTTPMethod,  completion: @escaping QueryResult) {
         dataTask?.cancel()
         
-        dataTask = defaultSession.dataTask(with: url) { data, response, error in
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = method.rawValue
+        
+        dataTask = defaultSession.dataTask(with: urlRequest) { data, response, error in
             defer { self.dataTask = nil }
             var errorMessage: String?
             if let error = error {

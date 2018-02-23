@@ -13,6 +13,7 @@ protocol TMDBControllerRequestsHandlerProtocol: class {
     var request: TMDBRequests { get }
     var datasource: TMDBDatasource { get }
     var staticMovies: [Movie] { get }
+    var typeList: TMDBRequestEnum.Movie { get }
     
     func reloadData()
 }
@@ -50,9 +51,8 @@ extension TMDBControllerRequestsHandlerProtocol where Self: UIViewController {
         }
     }
     
-    func requestRefresh(_ config: TMDBRequestEnum, completion: (() -> Void)? = nil) {
-        let request = TMDBRequests()
-        request.config = config
+    func requestRefresh(_ config: TMDBRequestEnum.Movie, completion: (() -> Void)? = nil) {
+        let request = TMDBRequests(with: typeList)
         request.run {[weak self] (movies, error) in
             guard let strongSelf = self else { return }
             guard error == nil else {

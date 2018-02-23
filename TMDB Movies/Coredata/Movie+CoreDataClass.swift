@@ -49,4 +49,14 @@ public class Movie: NSManagedObject, Decodable {
         title = try container.decode(String?.self, forKey: .title) ?? ""
         genres_ids = try container.decode([Int16]?.self, forKey: .genres) ?? []
     }
+    
+    //MARK - internal
+    
+    internal class func mock() -> Movie {
+        let dataManager = DataManager.shared
+        guard let description = NSEntityDescription.entity(forEntityName: "Movie", in: dataManager.context) else {
+            fatalError("Failed to generate Movie mock =/")
+        }
+        return Movie(entity: description, insertInto: nil)
+    }
 }

@@ -32,10 +32,19 @@ class TMDBUpcomingListViewController: UIViewController, TMDBControllerRequestsHa
     //MARK: Properties
     
     var datasource = TMDBDatasource()
-    var request = TMDBRequests(with: .upcoming)
+    var request = TMDBRequests()
+    var typeList: TMDBRequestEnum.Movie = .upcoming
     weak var delegate: TMDBUpcomingListDelegate?
     var staticMovies: [Movie] {
         return DataManager.shared.loadMovies()
+    }
+    
+    //MARK: Init
+    
+    convenience init(typeList: TMDBRequestEnum.Movie = .upcoming) {
+        self.init()
+        self.typeList = typeList
+        request = TMDBRequests(with: typeList)
     }
     
     //MARK: Lifecycle

@@ -40,13 +40,13 @@ class AppCoordinator: Coordinator {
     
     //MARK: Actions
     
-    private func showList() {
+    func showList() {
         let instance = TMDBUpcomingListViewController()
         instance.delegate = self
         rootViewController.pushViewController(instance, animated: true)
     }
     
-    private func showDetail(for movie: Movie) {
+    func showDetail(movie: Movie) {
         let instance = TMDBDetailViewController(with: movie)
         rootViewController.pushViewController(instance, animated: true)
     }
@@ -54,7 +54,7 @@ class AppCoordinator: Coordinator {
 
 extension AppCoordinator: TMDBUpcomingListDelegate {
     func upcomingList(_ upcoming: TMDBUpcomingListViewController, didSelect movie: Movie) {
-        showDetail(for: movie)
+        showDetail(movie: movie)
     }
 }
 

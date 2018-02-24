@@ -44,7 +44,7 @@ class TMDBDetailViewController: UIViewController {
         labelGenre.text = DataManager.shared.getGenres(ids: movie.genres_ids, joinedBy: ", ")
         labelOverview.text = movie.overview
         labelReleaseDate?.text = movie.customReleaseDate
-        if let url = TMDBImageRequestEnum.PosterSizes.w342.url(for: movie.posterImage){
+        if let url = TMDBImageRequestEnum.PosterSizes.w500.url(for: movie.posterImage){
             imageView.setImage(url: url,
                 placeholder: UIImageView.placeholderImage)
         } else {

@@ -12,6 +12,9 @@
 		2C1E9D6D203F99EF005DCFE2 /* Movie+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1E9D6B203F99EF005DCFE2 /* Movie+CoreDataProperties.swift */; };
 		2C1E9D6F203FA3F7005DCFE2 /* TMDBImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1E9D6E203FA3F7005DCFE2 /* TMDBImageCache.swift */; };
 		2C1E9D71203FA500005DCFE2 /* ImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1E9D70203FA500005DCFE2 /* ImageView+Extension.swift */; };
+		2C2411022040F8BF00E96111 /* TMDB_MoviesCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2411012040F8BF00E96111 /* TMDB_MoviesCoordinatorTests.swift */; };
+		2C241104204102ED00E96111 /* TMDB_MoviesDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C241103204102ED00E96111 /* TMDB_MoviesDataSourceTests.swift */; };
+		2C241106204104B600E96111 /* TMDB_MoviesUpcomingControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C241105204104B600E96111 /* TMDB_MoviesUpcomingControllerTests.swift */; };
 		2C255697203E367E002983E1 /* TMDBControllerRequestsHandlerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C255696203E367E002983E1 /* TMDBControllerRequestsHandlerProtocol.swift */; };
 		2C255699203E3FDF002983E1 /* JSONDecoder+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C255698203E3FDF002983E1 /* JSONDecoder+Extension.swift */; };
 		2C829866203CF01500203775 /* TMDBAPIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C829865203CF01500203775 /* TMDBAPIResponse.swift */; };
@@ -74,6 +77,9 @@
 		2C1E9D6B203F99EF005DCFE2 /* Movie+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Movie+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2C1E9D6E203FA3F7005DCFE2 /* TMDBImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBImageCache.swift; sourceTree = "<group>"; };
 		2C1E9D70203FA500005DCFE2 /* ImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageView+Extension.swift"; sourceTree = "<group>"; };
+		2C2411012040F8BF00E96111 /* TMDB_MoviesCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDB_MoviesCoordinatorTests.swift; sourceTree = "<group>"; };
+		2C241103204102ED00E96111 /* TMDB_MoviesDataSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDB_MoviesDataSourceTests.swift; sourceTree = "<group>"; };
+		2C241105204104B600E96111 /* TMDB_MoviesUpcomingControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDB_MoviesUpcomingControllerTests.swift; sourceTree = "<group>"; };
 		2C255696203E367E002983E1 /* TMDBControllerRequestsHandlerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBControllerRequestsHandlerProtocol.swift; sourceTree = "<group>"; };
 		2C255698203E3FDF002983E1 /* JSONDecoder+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+Extension.swift"; sourceTree = "<group>"; };
 		2C829865203CF01500203775 /* TMDBAPIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBAPIResponse.swift; sourceTree = "<group>"; };
@@ -202,6 +208,9 @@
 				35BD5D0F2040681600F19C8C /* TMDB_MoviesCoreDataGenresTests.swift */,
 				35BD5D112040891700F19C8C /* TMDB_MoviesRequestsTests.swift */,
 				35BD5D132040A9C000F19C8C /* TMDB_MoviesDetailControllerTests.swift */,
+				2C2411012040F8BF00E96111 /* TMDB_MoviesCoordinatorTests.swift */,
+				2C241103204102ED00E96111 /* TMDB_MoviesDataSourceTests.swift */,
+				2C241105204104B600E96111 /* TMDB_MoviesUpcomingControllerTests.swift */,
 			);
 			path = "TMDB MoviesTests";
 			sourceTree = "<group>";
@@ -498,6 +507,9 @@
 				35BD5D1E2040B42D00F19C8C /* TMDB_MoviesAPITest.swift in Sources */,
 				35BD5D1D2040B42A00F19C8C /* TMDB_MoviesTests.swift in Sources */,
 				35BD5D202040B43000F19C8C /* TMDB_MoviesCoreDataGenresTests.swift in Sources */,
+				2C241104204102ED00E96111 /* TMDB_MoviesDataSourceTests.swift in Sources */,
+				2C241106204104B600E96111 /* TMDB_MoviesUpcomingControllerTests.swift in Sources */,
+				2C2411022040F8BF00E96111 /* TMDB_MoviesCoordinatorTests.swift in Sources */,
 				35BD5D1F2040B43000F19C8C /* TMDB_MoviesCoreDataMovieTests.swift in Sources */,
 				35BD5D212040B43000F19C8C /* TMDB_MoviesRequestsTests.swift in Sources */,
 			);

@@ -114,7 +114,8 @@ extension TMDBUpcomingListViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        request = TMDBRequests(with: searchBar.text!.isEmpty ? .upcoming : .search(searchBar.text!))
+        guard let searchText = searchBar.text else { return }
+        request = TMDBRequests(with: searchBar.text!.isEmpty ? .upcoming : .search(searchText))
         makeRequest()
         searchBar.resignFirstResponder()
     }

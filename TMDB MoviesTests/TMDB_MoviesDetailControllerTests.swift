@@ -15,7 +15,7 @@ class TMDB_MoviesDetailControllerTests: XCTestCase {
         get {
             let movie = Movie.mock()
             movie.id = 1
-            movie.title = "title"
+            movie.title = "TMDB_MoviesDetailControllerTests"
             movie.overview = "overview"
             movie.releaseDate = NSDate()
             movie.genres_ids = [10, 20]

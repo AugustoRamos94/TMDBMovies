@@ -49,16 +49,17 @@ class TMDB_MoviesCoreDataGenresTests: XCTestCase {
     
     func test2FindGenreById() {
         let dataManager = DataManager.shared
+        dataManager.save(genres: [genreTestOne])
         let genre = dataManager.findGenre(by: Int16(genreTestOne.id))
         XCTAssert(genre != nil, "could not find genre")
     }
     
     func test3CustomGenresNames() {
         let dataManager = DataManager.shared
-        dataManager.save(genres: [genreTestTwo])
+        dataManager.save(genres: [genreTestOne, genreTestTwo])
         let customNames = dataManager.getGenres(ids: [Int16(genreTestOne.id), Int16(genreTestTwo.id)],
                                                 joinedBy: ",")
         XCTAssert(customNames == "\(genreTestOne.name),\(genreTestTwo.name)",
-                  "could not find genre")
+                  "could not load custom names")
     }
 }

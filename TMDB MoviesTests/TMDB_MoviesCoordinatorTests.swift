@@ -15,7 +15,7 @@ class TMDB_MoviesCoordinatorTests: XCTestCase {
         get {
             let movie = Movie.mock()
             movie.id = 1
-            movie.title = "movie test 1"
+            movie.title = "TMDB_MoviesCoordinatorTests"
             movie.backdropImage = ""
             movie.genres_ids = []
             movie.overview = ""

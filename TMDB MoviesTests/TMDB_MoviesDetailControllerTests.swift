@@ -44,6 +44,7 @@ class TMDB_MoviesDetailControllerTests: XCTestCase {
     
     func testDetailController() {
         _ = detailController!.view
+        detailController!.updateUI()
         XCTAssert(detailController!.labelTitle.text == movieTest.customTitle, "Bug: info not equal")
         XCTAssert(detailController!.labelReleaseDate.text == movieTest.customReleaseDate, "Bug: info not equal")
         XCTAssert(detailController!.labelOverview.text == movieTest.overview, "Bug: info not equal")

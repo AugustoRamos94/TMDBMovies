@@ -36,10 +36,16 @@ class TMDBDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Detail"
-        updateUI()
     }
     
-    private func updateUI() {
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        DispatchQueue.main.async {[weak self] in
+            self?.updateUI()
+        }
+    }
+    
+    internal func updateUI() {
         labelTitle.text = movie.customTitle
         labelGenre.text = DataManager.shared.getGenres(ids: movie.genres_ids, joinedBy: ", ")
         labelOverview.text = movie.overview
@@ -50,5 +56,6 @@ class TMDBDetailViewController: UIViewController {
         } else {
             imageView.image = UIImageView.placeholderImage
         }
+        scrollContent.contentSize = stackContent.frame.size
     }
 }

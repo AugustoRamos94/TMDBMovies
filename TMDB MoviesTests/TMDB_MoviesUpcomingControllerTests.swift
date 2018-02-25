@@ -14,7 +14,7 @@ class TMDB_MoviesUpcomingControllerTests: XCTestCase {
         get {
             let movie = Movie.mock()
             movie.id = 1
-            movie.title = "title one"
+            movie.title = "TMDB_MoviesUpcomingControllerTests 1"
             movie.overview = "overview"
             movie.releaseDate = NSDate()
             movie.genres_ids = [10, 20]
@@ -27,7 +27,7 @@ class TMDB_MoviesUpcomingControllerTests: XCTestCase {
         get {
             let movie = Movie.mock()
             movie.id = 2
-            movie.title = "title two"
+            movie.title = "TMDB_MoviesUpcomingControllerTests 2"
             movie.overview = "overview"
             movie.releaseDate = NSDate()
             movie.genres_ids = [10, 20]
@@ -36,12 +36,12 @@ class TMDB_MoviesUpcomingControllerTests: XCTestCase {
         }
     }
     
-    var listController: TMDBUpcomingListViewController?
+    var listController: TMDBListViewController?
     
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        let listController = TMDBUpcomingListViewController(typeList: .upcoming)
+        let listController = TMDBListViewController(typeList: .upcoming)
         self.listController = listController
         guard self.listController != nil else {
             XCTAssert(false, "Bug: not instantiate TMDBUpcomingListViewController")
@@ -53,6 +53,7 @@ class TMDB_MoviesUpcomingControllerTests: XCTestCase {
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
+        DataManager.shared.delete(objects: [movieTest, movieTestTwo])
     }
     
     func testDataSourceItems() {
@@ -64,6 +65,10 @@ class TMDB_MoviesUpcomingControllerTests: XCTestCase {
         XCTAssertTrue(listController?.datasource.items.count == 2, "Bug: items not equal")
         listController?.collectionView.reloadData()
         XCTAssertTrue(listController?.collectionView.numberOfItems(inSection: 0) == 2, "Bug: collection not right")
+        
+        let moviesTest = DataManager.shared.loadMovies().filter({ $0.title == movieTest.title && $0.id == movieTest.id })
+        moviesTest.forEach({ DataManager.shared.context.delete($0) })
+        
         
         DataManager.shared.save(movies: [movieTest])
         listController?.searchBar.text = movieTest.title

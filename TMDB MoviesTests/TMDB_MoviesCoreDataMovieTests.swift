@@ -15,7 +15,7 @@ class TMDB_MoviesCoreDataMovieTests: XCTestCase {
         get {
             let movie = Movie.mock()
             movie.id = 1
-            movie.title = "movie test 1"
+            movie.title = "TMDB_MoviesCoreDataMovieTests"
             movie.backdropImage = ""
             movie.genres_ids = []
             movie.overview = ""
@@ -33,9 +33,10 @@ class TMDB_MoviesCoreDataMovieTests: XCTestCase {
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
+        DataManager.shared.delete(objects: [movieTestOne])
     }
     
-    func testLoadFavorites() {
+    func testLoadMovies() {
         let dataManager = DataManager.shared
         dataManager.save(movies: [movieTestOne])
         let movies = dataManager.loadMovies()

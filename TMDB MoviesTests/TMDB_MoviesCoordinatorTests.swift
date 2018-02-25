@@ -49,7 +49,7 @@ class TMDB_MoviesCoordinatorTests: XCTestCase {
             return
         }
         
-        guard let _ = firstController as? TMDBUpcomingListViewController else {
+        guard let _ = firstController as? TMDBListViewController else {
             XCTAssert(false, "Bug: not right view controller")
             return
         }

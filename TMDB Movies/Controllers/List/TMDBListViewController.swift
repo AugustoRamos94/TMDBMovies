@@ -9,10 +9,10 @@
 import UIKit
 
 protocol TMDBUpcomingListDelegate: class {
-    func upcomingList(_ upcoming: TMDBUpcomingListViewController, didSelect movie: Movie)
+    func upcomingList(_ upcoming: TMDBListViewController, didSelect movie: Movie)
 }
 
-class TMDBUpcomingListViewController: UIViewController, TMDBControllerRequestsHandlerProtocol {
+class TMDBListViewController: UIViewController, TMDBControllerRequestsHandlerProtocol {
     //MARK: IBOutlets
     
     @IBOutlet weak var searchBar: UISearchBar!
@@ -61,6 +61,14 @@ class TMDBUpcomingListViewController: UIViewController, TMDBControllerRequestsHa
         makeRequest()
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionView.collectionViewLayout.invalidateLayout()
+            self?.collectionView.reloadData()
+        }
+    }
+    
     //MARK: Setup
     
     @objc private func refresh(_ refresh: UIRefreshControl) {
@@ -74,7 +82,7 @@ class TMDBUpcomingListViewController: UIViewController, TMDBControllerRequestsHa
     }
 }
 
-extension TMDBUpcomingListViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension TMDBListViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
         defer { collectionView.deselectItem(at: indexPath, animated: false) }
@@ -93,15 +101,16 @@ extension TMDBUpcomingListViewController: UICollectionViewDelegate, UICollection
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let padding: CGFloat =  30
+        let portrait = UIDevice.current.orientation == .portrait
+        let padding: CGFloat = portrait ? 20 : 40
         let collectionViewSize = collectionView.frame.size.width - padding
-        let columns: CGFloat = UIDevice.current.orientation == .portrait ? 2.0 : 4.0
+        let columns: CGFloat = portrait ? 2.0 : 3.0
         return CGSize(width: collectionViewSize/columns,
                       height: collectionViewSize/columns)
     }
 }
 
-extension TMDBUpcomingListViewController: UISearchBarDelegate {
+extension TMDBListViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar,
                    textDidChange searchText: String) {
         let filteredItems = staticMovies.filter({ $0.title.contains(searchText) })

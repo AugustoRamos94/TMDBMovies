@@ -10,6 +10,14 @@ import Foundation
 import CoreData
 
 extension DataManager {
+    //MARK: Delete
+    
+    func delete(objects: [NSManagedObject]) {
+        objects.forEach({
+            context.delete($0)
+        })
+    }
+    
     //MARK: Save
     
     func save(genres: [Genre]) {

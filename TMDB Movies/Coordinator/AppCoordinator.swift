@@ -24,6 +24,8 @@ class AppCoordinator: Coordinator {
         self.window = window
         rootViewController = UINavigationController()
         rootViewController.navigationBar.barTintColor = .appColor
+        let textAttributes: [NSAttributedStringKey: UIColor] = [.foregroundColor: .white]
+        rootViewController.navigationBar.titleTextAttributes = textAttributes
         rootViewController.navigationBar.tintColor = .white
     }
     
@@ -41,7 +43,7 @@ class AppCoordinator: Coordinator {
     //MARK: Actions
     
     func showList() {
-        let instance = TMDBUpcomingListViewController()
+        let instance = TMDBListViewController()
         instance.delegate = self
         rootViewController.pushViewController(instance, animated: true)
     }
@@ -53,7 +55,7 @@ class AppCoordinator: Coordinator {
 }
 
 extension AppCoordinator: TMDBUpcomingListDelegate {
-    func upcomingList(_ upcoming: TMDBUpcomingListViewController, didSelect movie: Movie) {
+    func upcomingList(_ upcoming: TMDBListViewController, didSelect movie: Movie) {
         showDetail(movie: movie)
     }
 }

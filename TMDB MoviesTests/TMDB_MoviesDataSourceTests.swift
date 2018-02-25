@@ -14,7 +14,7 @@ class TMDB_MoviesDataSourceTests: XCTestCase {
         get {
             let movie = Movie.mock()
             movie.id = 1
-            movie.title = "movie test 1"
+            movie.title = "TMDB_MoviesDataSourceTests 1"
             movie.backdropImage = ""
             movie.genres_ids = []
             movie.overview = ""
